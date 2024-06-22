@@ -17,7 +17,7 @@ app.use('/api', productRouter)
 const start = async ()=> {
     try {
         await mongoose.connect(DATABASE_URL) 
-        app.listen(PORT, ()=> console.log("Сервер запущен на порту", PORT))
+        app.listen(5000)
     } catch (error) {
         console.log(error)
     }
