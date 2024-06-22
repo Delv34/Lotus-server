@@ -10,8 +10,8 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
-app.use('/', authRouter)
-app.use('/', productRouter)
+app.use('/api', authRouter)
+app.use('/api', productRouter)
 
 const start = async ()=> {
     try {
