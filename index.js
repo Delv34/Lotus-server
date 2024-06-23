@@ -6,7 +6,6 @@ const productRouter = require('./routers/productRouter')
 const PORT = process.env.PORT || 4444
 
 const app = express()
-const DATABASE_URL = process.env.DATABASE_URL
 
 app.use(express.json())
 app.use(cors())
@@ -15,7 +14,7 @@ app.use('/api', productRouter)
 
 const start = async ()=> {
     try {
-        await mongoose.connect(DATABASE_URL) 
+        await mongoose.connect("mongodb+srv://admin:admin@lotus.lvynxvg.mongodb.net/Lotus?retryWrites=true&w=majority&appName=Lotus") 
         app.listen(4444)
     } catch (error) {
         console.log(error)
