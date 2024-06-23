@@ -4,7 +4,6 @@ const mongoose = require("mongoose")
 const authRouter = require('./routers/userRouter')
 const productRouter = require('./routers/productRouter')
 const PORT = process.env.PORT || 4444
-require('dotenv').config()
 
 const app = express()
 const DATABASE_URL = process.env.DATABASE_URL
