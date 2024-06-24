@@ -1,5 +1,7 @@
 const Category = require('../models/Category')
 const Product = require('../models/Product')
+const Roles = require('../models/Role')
+
 class productController {
 
     async create_product(request, response) {
@@ -71,6 +73,15 @@ class productController {
             
         }
     }
+
+    async getPopular(request, response) {
+     try {
+        const products = await Product.find({orders: {$gt: 0}}).sort({orders: -1}).limit(6)
+        return response.json(products)
+     } catch (error) {
+         
+     }
+ }
 
     async getProduct(request,response) {
         const id = request.params.id

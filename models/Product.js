@@ -9,13 +9,14 @@ const Product = new Schema({
     weight: {type: Number, required: true},
     proteins: {type: Number, required: true},
     fats: {type: Number, required: true},
-    carbonhydrates: {type: Number, required: true},
+    carbohydrates: {type: Number, required: true},
     calories: {type: Number, required: true},
     composition: {type: String, required: true},
     storage_conditions: {type: String, required: true},
     best_conditions: {type: String, required: true},
     filling: [{type: String, required: true}],
     kind: {type: String, required: true},
+    orders: {type: Number}
 }) 
 
 module.exports = model("Product", Product)

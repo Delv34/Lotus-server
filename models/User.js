@@ -6,7 +6,7 @@ const User = new Schema({
     fullname: {type: String},
     birthday: {type: Date},
     sex: {type: Boolean},
-    phone: {type: String, required: true},
+    phone: {type: String},
     adress: {type: String},
     favorites: [{type: mongoose.Schema.Types.ObjectId, ref: "Product"}],
     cart: [{type: mongoose.Schema.Types.ObjectId, ref: "Product"}],

@@ -16,41 +16,38 @@ const generateAccesToken = (id, roles)=> {
 class authController {
     async registration(request, response) {
         try {
-            const errors = validationResult(request)
-            if (!errors.isEmpty()) {
-                return response.status(400).json({message: "Ошибка при регистрации", errors})
-            }
-            const {username, password} = request.body
-            const candidate = await User.findOne({username})
+            console.log(request.body)
+            const {email, password} = request.body
+            const candidate = await User.findOne({email})
             if (candidate) {
-                return response.status(400).json({message: "Пользователь с таким именем уже существует"})
+                return response.json({message: "Пользователь с таким email уже существует"})
             }
             const hashPassword = bcrypt.hashSync(password, 7);
             const userRole = await Role.findOne({value: "USER"})
-            const user =  new User({username, password: hashPassword, roles: [userRole.value]})
+            const user =  new User({email, password: hashPassword, roles: [userRole.value]})
             await user.save()
-            return response.json({message: "Пользователь был успешно зарегистрирован"})
+            const token = generateAccesToken(user._id, user.roles)
+            return response.json({message: "Пользователь был успешно зарегистрирован", token: token})
             
         } catch (error) {
-            console.log(error)
+            console.log("Ошибка в catch:",error)
             response.status(400).json({ message: "Registration error"})
         }
     }
     
     async login(request, response) {
         try {
-            const {username, password} = request.body
-            const user = await User.findOne({username})
+            const {email, password} = request.body
+            const user = await User.findOne({email})
             if (!user) {
-                return response.status(400).json({message: "Пользователь не найден"})
+                return response.json({message: "Пользователь не найден"})
             }   
-            const validPassword = bcrypt.compare(password, user.password)
-            console.log(user.password)
+            const validPassword = await bcrypt.compare(password, user.password)
             if (!validPassword) {
-                return response.status(400).json({message: "Введен неверный пароль"})
+                return response.json({message: "Введен неверный пароль"})
             }
             const token = generateAccesToken(user._id, user.roles)
-            return response.json({token})
+            return response.json({token: token, role: user.roles})
             
         } catch (error) {
             console.log(error)
