@@ -34,6 +34,28 @@ class authController {
             response.status(400).json({ message: "Registration error"})
         }
     }
+
+    async registration2(request, response) {
+        try {
+            console.log(request.body)
+            const {token, data} = request.body
+            console.log(token)
+            // name, lastname, surname, birthday, sex, phone, town, door, floor, room
+            const usertoken = jwt.verify(token, secret)
+            const id = usertoken.id
+            const user = await User.findOne({id})
+            console.log(user)
+            const hashPassword = bcrypt.hashSync(password, 7);
+            const userRole = await Role.findOne({value: "USER"})
+            // const user =  new User({email, password: hashPassword, roles: [userRole.value]})
+            // await user.save()
+            // return response.json({message: "Пользователь был успешно зарегистрирован"})
+            
+        } catch (error) {
+            console.log("Ошибка в catch:",error)
+            response.status(400).json({ message: "Registration error"})
+        }
+    }
     
     async login(request, response) {
         try {
@@ -55,12 +77,17 @@ class authController {
         }
     }
 
-    async getUsers(request, response) {
+    async getUser(request, response) {
         try {
-            const users = await User.find()
-            response.json(users)
+            const {token} = request.body
+            const user = jwt.verify(token, secret)
+            const id = user.id
+            console.log(id)
+            const userinfo = await User.findOne({_id: id})
+            response.json(userinfo)
         } catch (error) {
-            
+            console.log(error)
+            response.json({ message: "Не удалось найти пользователя"})
         }
     }
 

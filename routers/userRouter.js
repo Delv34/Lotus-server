@@ -7,7 +7,9 @@ const roleMiddleware = require('../middleware/roleMiddleware')
 
 
 router.post("/registration", controller.registration)
+router.post("/registration2", controller.registration2)
 router.post('/login', controller.login)
-router.get('/users', roleMiddleware(['USER']), controller.getUsers)
+// router.get('/users', roleMiddleware(['USER']), controller.getUsers)
+router.post('/getuser', controller.getUser)
 
 module.exports = router;
